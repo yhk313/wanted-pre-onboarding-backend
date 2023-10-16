@@ -1,6 +1,7 @@
 package com.wanted.preonboardingbackend.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Company {
     @Id
     @Column(name = "company_id")
@@ -20,6 +22,8 @@ public class Company {
 
     @Column
     private String name;
+    @Column
+    private String country;
 
     @Column
     private String region;
