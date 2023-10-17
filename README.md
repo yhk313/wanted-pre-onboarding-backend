@@ -20,6 +20,11 @@
 - name
 
 ---
+### ERD
+<img width="400" alt="image" src="https://github.com/yhk313/wanted-pre-onboarding-backend/assets/75387909/f1bd8bda-0053-438f-8866-028bc49aadd4">
+
+
+---
 
 ### api 설계
 1. 채용공고 등록
@@ -29,7 +34,6 @@
 - [POST] api/vi/recruitment-notice/{id}
 
 3. 채용공고 삭제
-- 
 - [DELETE] api/vi/recruitment-notice/{id}
 
 4. 채용공고 전체조회
