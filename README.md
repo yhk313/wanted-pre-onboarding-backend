@@ -48,7 +48,7 @@
 ```
 [POST] api/vi/recruitment-notice
 ```
-```aidl
+```
 {
     "companyId": 1,
     "position": "웹개발자",
@@ -64,7 +64,7 @@
 ```
   [POST] api/vi/recruitment-notice/{id}
   ```
-```aidl
+```
 {
     "position": "앱개발자",
     "compensation": 100000,
@@ -84,7 +84,7 @@
 [GET] api/vi/recruitment-notice/all
 ```
 - response
-```aidl
+```
 [
     {
         "recruitmentNoticeId": 3,
@@ -131,7 +131,7 @@
 [GET] api/vi/recruitment-notice/url?search = 삼성
 ```
 - response
-```aidl
+```
 [
     {
         "recruitmentNoticeId": 3,
@@ -150,7 +150,7 @@
 [GET] api/vi/recruitment-notice/4
 ```
 - response
-```aidl
+```
 {
     "recruitmentNoticeId": 4,
     "companyName": "현대자동차",
@@ -170,7 +170,7 @@
 ```
 [POST] api/vi/recruitment-application
 ```
-```aidl
+```
 {
     "userId": 1,
     "recruitmentNoticeId": 7
