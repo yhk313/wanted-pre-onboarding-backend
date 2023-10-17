@@ -1,5 +1,6 @@
 package com.wanted.preonboardingbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,7 @@ public class RecruitmentNotice {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
+    @JsonManagedReference
     private Company company;
 
     @Column

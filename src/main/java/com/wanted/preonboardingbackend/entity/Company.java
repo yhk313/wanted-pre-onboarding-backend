@@ -1,5 +1,7 @@
 package com.wanted.preonboardingbackend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,5 +31,6 @@ public class Company {
     private String region;
 
     @OneToMany(mappedBy = "company")
+    @JsonBackReference
     private List<RecruitmentNotice> recruitmentNoticeList = new ArrayList<>();
 }
