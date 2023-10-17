@@ -21,7 +21,7 @@ public class RecruitmentNoticeService {
     private final RecruitmentNoticeRepository recruitmentNoticeRepository;
     private final CompanyRepository companyRepository;
 
-    public ResponseEntity<String> createRecruitmentNotice(RecruitmentNoticeRequestDto requestDto) {
+    public void createRecruitmentNotice(RecruitmentNoticeRequestDto requestDto) {
         Optional<Company> findCompany = companyRepository.findById(requestDto.getCompanyId());
 
         //  채용공고 등록
@@ -34,15 +34,14 @@ public class RecruitmentNoticeService {
                     .technologyUsed(requestDto.getTechnologyUsed())
                     .build();
             recruitmentNoticeRepository.save(recruitmentNotice);
-            return ResponseEntity.ok("Success!");
         } else {
-            throw new IllegalArgumentException("Recruitment not found");
+            throw new IllegalArgumentException();
         }
 
     }
 
     // 채용공고 수정
-    public ResponseEntity<String> updateRecruitmentNotice(Long id , RecruitmentNoticeRequestDto requestDto) {
+    public void updateRecruitmentNotice(Long id , RecruitmentNoticeRequestDto requestDto) {
         Optional<RecruitmentNotice> findRecruitment = recruitmentNoticeRepository.findById(id);
         if(findRecruitment.isPresent()) {
             RecruitmentNotice recruitmentNotice = findRecruitment.get();
@@ -52,78 +51,81 @@ public class RecruitmentNoticeService {
             recruitmentNotice.setTechnologyUsed(requestDto.getTechnologyUsed());
 
             recruitmentNoticeRepository.save(recruitmentNotice);
-            return ResponseEntity.ok("Success!");
         } else {
-            throw new IllegalArgumentException("Recruitment not found");
+            throw new IllegalArgumentException();
         }
     }
 
     // 채용공고 삭제
-    public ResponseEntity<String> deleteRecruitmentNotice(Long id) {
+    public void deleteRecruitmentNotice(Long id) {
         Optional<RecruitmentNotice> findRecruitment = recruitmentNoticeRepository.findById(id);
         if(findRecruitment.isPresent()) {
             recruitmentNoticeRepository.delete(findRecruitment.get());
-            return ResponseEntity.ok("Success");
         } else {
-            throw new IllegalArgumentException("Recruitment not found");
+            throw new IllegalArgumentException();
         }
     }
 
     // 채용공고 목록 조회
-    public ResponseEntity<List<RecruitmentNoticeResponseDto>> getAllRecruitmentNotices() {
+    public List<RecruitmentNoticeResponseDto> getAllRecruitmentNotices() {
         List<RecruitmentNotice> recruitmentNoticeList = recruitmentNoticeRepository.findAll();
         List<RecruitmentNoticeResponseDto> responseDtoList = new ArrayList<>();
 
         for (RecruitmentNotice recruitmentNotice : recruitmentNoticeList) {
-            RecruitmentNoticeResponseDto dto = new RecruitmentNoticeResponseDto();
-            dto.setRecruitmentNoticeId(recruitmentNotice.getId());
-            dto.setCompanyName(recruitmentNotice.getCompany().getName());
-            dto.setCountry(recruitmentNotice.getCompany().getCountry());
-            dto.setRegion(recruitmentNotice.getCompany().getRegion());
-            dto.setPosition(recruitmentNotice.getPosition());
-            dto.setCompensation(recruitmentNotice.getCompensation());
-            dto.setTechnologyUsed(recruitmentNotice.getTechnologyUsed());
+            RecruitmentNoticeResponseDto dto = RecruitmentNoticeResponseDto.builder()
+                .recruitmentNoticeId(recruitmentNotice.getId())
+                .companyName(recruitmentNotice.getCompany().getName())
+                .country(recruitmentNotice.getCompany().getCountry())
+                .region(recruitmentNotice.getCompany().getRegion())
+                .position(recruitmentNotice.getPosition())
+                .compensation(recruitmentNotice.getCompensation())
+                .technologyUsed(recruitmentNotice.getTechnologyUsed())
+                    .build();
             responseDtoList.add(dto);
         }
 
-        return ResponseEntity.ok(responseDtoList);
+        return responseDtoList;
     }
     // 채용공고 검색(회사명, 포지션, 사용기술)
-    public ResponseEntity<List<RecruitmentNoticeResponseDto>> searchRecruitment(String search) {
+    public List<RecruitmentNoticeResponseDto> searchRecruitment(String search) {
         List<RecruitmentNotice> recruitmentNoticeList = recruitmentNoticeRepository.findByCompanyNameContainingOrPositionContainingOrTechnologyUsedContaining(search, search, search);
         List<RecruitmentNoticeResponseDto> responseDtoList = new ArrayList<>();
 
         for (RecruitmentNotice recruitmentNotice : recruitmentNoticeList) {
-            RecruitmentNoticeResponseDto dto = new RecruitmentNoticeResponseDto();
-            dto.setRecruitmentNoticeId(recruitmentNotice.getId());
-            dto.setCompanyName(recruitmentNotice.getCompany().getName());
-            dto.setCountry(recruitmentNotice.getCompany().getCountry());
-            dto.setRegion(recruitmentNotice.getCompany().getRegion());
-            dto.setPosition(recruitmentNotice.getPosition());
-            dto.setCompensation(recruitmentNotice.getCompensation());
-            dto.setTechnologyUsed(recruitmentNotice.getTechnologyUsed());
+            RecruitmentNoticeResponseDto dto = RecruitmentNoticeResponseDto.builder()
+                    .recruitmentNoticeId(recruitmentNotice.getId())
+                    .companyName(recruitmentNotice.getCompany().getName())
+                    .country(recruitmentNotice.getCompany().getCountry())
+                    .region(recruitmentNotice.getCompany().getRegion())
+                    .position(recruitmentNotice.getPosition())
+                    .compensation(recruitmentNotice.getCompensation())
+                    .technologyUsed(recruitmentNotice.getTechnologyUsed())
+                    .build();
+
             responseDtoList.add(dto);
         }
 
-        return ResponseEntity.ok(responseDtoList);
+        return responseDtoList;
     }
 
     // 채용공고 상세페이지
-    public ResponseEntity<RecruitmentNoticeDetailResponse> getDetailRecruitment(Long id) {
+    public RecruitmentNoticeDetailResponse getDetailRecruitment(Long id) {
         Optional<RecruitmentNotice> findRecruit = recruitmentNoticeRepository.findById(id);
         if(findRecruit.isPresent()) {
             RecruitmentNotice recruitmentNotice = findRecruit.get();
             Long companyId = recruitmentNotice.getCompany().getId();
             List<RecruitmentNotice> findRecruitByCompanyId = recruitmentNoticeRepository.findByCompanyId(companyId);
-            RecruitmentNoticeDetailResponse dto = new RecruitmentNoticeDetailResponse();
-            dto.setRecruitmentNoticeId(recruitmentNotice.getId());
-            dto.setCompanyName(recruitmentNotice.getCompany().getName());
-            dto.setCountry(recruitmentNotice.getCompany().getCountry());
-            dto.setRegion(recruitmentNotice.getCompany().getRegion());
-            dto.setPosition(recruitmentNotice.getPosition());
-            dto.setCompensation(recruitmentNotice.getCompensation());
-            dto.setDetails(recruitmentNotice.getDetails());
-            dto.setTechnologyUsed(recruitmentNotice.getTechnologyUsed());
+            RecruitmentNoticeDetailResponse dto = RecruitmentNoticeDetailResponse.builder()
+                    .recruitmentNoticeId(recruitmentNotice.getId())
+                    .companyName(recruitmentNotice.getCompany().getName())
+                    .country(recruitmentNotice.getCompany().getCountry())
+                    .region(recruitmentNotice.getCompany().getRegion())
+                    .position(recruitmentNotice.getPosition())
+                    .compensation(recruitmentNotice.getCompensation())
+                    .details(recruitmentNotice.getDetails())
+                    .technologyUsed(recruitmentNotice.getTechnologyUsed())
+                    .build();
+
             List<Long> recruitmentIdList = new ArrayList<>();
             // 다른 채용 공고 ID를 리스트에 추가
             for (RecruitmentNotice otherRecruitment : findRecruitByCompanyId) {
@@ -132,7 +134,7 @@ public class RecruitmentNoticeService {
             }
             dto.setOtherRecruitmentNotices(recruitmentIdList);
 
-            return ResponseEntity.ok(dto);
+            return dto;
         } else {
             throw new IllegalArgumentException("Recruitment not found");
         }
