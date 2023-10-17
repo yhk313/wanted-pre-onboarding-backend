@@ -1,6 +1,7 @@
 package com.wanted.preonboardingbackend.dto;
 
 import com.wanted.preonboardingbackend.entity.RecruitmentNotice;
+import com.wanted.preonboardingbackend.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,13 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RecruitmentNoticeResponseDto {
+public class ApplyHistoryRequestDto {
+    private Long userId;
     private Long recruitmentNoticeId;
-    private String companyName;
-    private String country;
-    private String region;
-    private String position;
-    private Long compensation;
-    private String technologyUsed;
-
 }

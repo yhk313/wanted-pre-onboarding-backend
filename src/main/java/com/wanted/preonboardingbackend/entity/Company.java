@@ -31,6 +31,5 @@ public class Company {
     private String region;
 
     @OneToMany(mappedBy = "company")
-    @JsonBackReference
     private List<RecruitmentNotice> recruitmentNoticeList = new ArrayList<>();
 }

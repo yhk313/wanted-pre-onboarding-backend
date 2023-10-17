@@ -21,7 +21,6 @@ public class RecruitmentNotice {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
-    @JsonManagedReference
     private Company company;
 
     @Column
